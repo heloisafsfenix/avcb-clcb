@@ -1565,6 +1565,44 @@ document.addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeGuideModal();
 });
+
+/* ====================== AUTO-RESIZE PARA IFRAME ====================== */
+(function() {
+    if (window.self === window.top) return; // só executa dentro de iframe
+
+    var lastHeight = 0;
+    function sendHeight() {
+        var h = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight
+        );
+        if (h !== lastHeight) {
+            lastHeight = h;
+            window.parent.postMessage({ type: 'rr-lp-resize', height: h }, '*');
+        }
+    }
+
+    // Eventos que mudam a altura
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    window.addEventListener('orientationchange', function() { setTimeout(sendHeight, 200); });
+
+    // Observa mudanças no DOM (modal abrindo/fechando, FAQ expandindo etc)
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(sendHeight).observe(document.body);
+    } else {
+        setInterval(sendHeight, 500);
+    }
+
+    // Envia ao carregar inicialmente e em intervalos curtos no início
+    sendHeight();
+    setTimeout(sendHeight, 100);
+    setTimeout(sendHeight, 500);
+    setTimeout(sendHeight, 1500);
+    setTimeout(sendHeight, 3000);
+})();
 </script>
 
 </body>
