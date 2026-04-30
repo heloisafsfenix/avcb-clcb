@@ -113,6 +113,41 @@ img { max-width: 100%; height: auto; }
     letter-spacing: 0em !important;
     transition: all 0.2s ease;
 }
+/* Hamburger button */
+.site-nav-burger {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+    z-index: 102;
+}
+.site-nav-burger span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: #FFFFFF;
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+.site-nav-burger.is-open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.site-nav-burger.is-open span:nth-child(2) {
+    opacity: 0;
+}
+.site-nav-burger.is-open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+/* Diff cards grid */
+.diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
 .site-nav-cta:hover {
     background: #0A8A6E !important;
     color: #FFFFFF !important;
@@ -905,9 +940,36 @@ img { max-width: 100%; height: auto; }
     .about-split { flex-direction: column; text-align: center; }
     .about-image { max-width: 280px; }
     .stats-row { gap: 32px; }
-    .site-nav { padding: 10px 16px; flex-wrap: wrap; }
-    .site-nav-links { display: none; }
-    .site-nav-cta { padding: 8px 16px !important; font-size: 12px !important; }
+    .site-nav { padding: 10px 16px; }
+    .site-nav-burger { display: block; }
+    .site-nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(165, 8, 8, 0.98);
+        padding: 12px 0;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    .site-nav-links.is-open { display: flex; }
+    .site-nav-links a {
+        padding: 14px 24px;
+        border-radius: 0;
+        text-align: left;
+        font-size: 15px;
+    }
+    .site-nav-links .site-nav-cta {
+        margin: 12px 24px 4px 24px;
+        text-align: center !important;
+        padding: 12px 20px !important;
+    }
+    .diff-grid { grid-template-columns: 1fr; gap: 20px; }
+    .diff-card { padding: 28px !important; }
     .cta-final { padding: 60px 24px; }
     .btn-white span, .btn-red span, .btn-outline-white span, .btn-teal span, .btn-download span { font-size: 14px; }
     .btn-white, .btn-red, .btn-outline-white, .btn-teal, .btn-download { padding: 12px 20px; }
@@ -935,13 +997,18 @@ img { max-width: 100%; height: auto; }
     <a href="index.html" class="site-nav-logo">
         <img alt="Ribeiro &amp; Ribeiro" src="https://static.wixstatic.com/media/4ad6dd_93aa21c9caa346588b960291c00bc2d8~mv2.png" />
     </a>
-    <div class="site-nav-links">
-        <a href="#o-que-e">O que é</a>
-        <a href="#como-funciona">Como funciona</a>
-        <a href="#cartilha">Cartilha</a>
-        <a href="#quem-somos">Quem somos</a>
-        <a href="#duvidas">Dúvidas</a>
-        <a href="#" class="site-nav-cta pht-whatsapp" data-widget="9628">Fale conosco</a>
+    <button class="site-nav-burger" id="navBurger" aria-label="Abrir menu" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="site-nav-links" id="navLinks">
+        <a href="#o-que-e" onclick="closeMobileMenu()">O que é</a>
+        <a href="#como-funciona" onclick="closeMobileMenu()">Como funciona</a>
+        <a href="#cartilha" onclick="closeMobileMenu()">Cartilha</a>
+        <a href="#quem-somos" onclick="closeMobileMenu()">Quem somos</a>
+        <a href="#duvidas" onclick="closeMobileMenu()">Dúvidas</a>
+        <a href="#" class="site-nav-cta pht-whatsapp" data-widget="9628" onclick="closeMobileMenu()">Fale conosco</a>
     </div>
 </nav>
 
@@ -1054,9 +1121,9 @@ img { max-width: 100%; height: auto; }
             <h2 class="heading-lg color_42" style="margin-bottom: 16px;">Qual a diferen&ccedil;a entre AVCB e CLCB?</h2>
             <p class="body-md" style="color: #404040; max-width: 700px; margin: 0 auto;">Entenda qual documento &eacute; o mais indicado para a sua edifica&ccedil;&atilde;o e garanta a conformidade com o Corpo de Bombeiros.</p>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+        <div class="diff-grid">
             <!-- AVCB Card -->
-            <div style="background: #FFFFFF; border-radius: 12px; padding: 40px; box-shadow: 0px 4px 20px rgba(0,0,0,0.08); border-top: 4px solid #F31111;">
+            <div class="diff-card" style="background: #FFFFFF; border-radius: 12px; padding: 40px; box-shadow: 0px 4px 20px rgba(0,0,0,0.08); border-top: 4px solid #F31111;">
                 <div class="heading-md color_42" style="margin-bottom: 8px;">AVCB</div>
                 <p class="heading-sub color_36" style="margin-bottom: 16px; font-size: 18px;">Auto de Vistoria do Corpo de Bombeiros</p>
                 <p class="body-md" style="color: #404040; margin-bottom: 16px;">Documento obrigat&oacute;rio para edifica&ccedil;&otilde;es com &aacute;rea superior a 750 m&sup2; ou de uso especial, como hospitais, escolas, shopping centers, ind&uacute;strias e edif&iacute;cios com mais de 3 pavimentos.</p>
@@ -1068,7 +1135,7 @@ img { max-width: 100%; height: auto; }
                 </a>
             </div>
             <!-- CLCB Card -->
-            <div style="background: #FFFFFF; border-radius: 12px; padding: 40px; box-shadow: 0px 4px 20px rgba(0,0,0,0.08); border-top: 4px solid #A50808;">
+            <div class="diff-card" style="background: #FFFFFF; border-radius: 12px; padding: 40px; box-shadow: 0px 4px 20px rgba(0,0,0,0.08); border-top: 4px solid #A50808;">
                 <div class="heading-md" style="color: #A50808; margin-bottom: 8px;">CLCB</div>
                 <p class="heading-sub color_36" style="margin-bottom: 16px; font-size: 18px;">Certificado de Licen&ccedil;a do Corpo de Bombeiros</p>
                 <p class="body-md" style="color: #404040; margin-bottom: 16px;">Documento destinado a edifica&ccedil;&otilde;es de menor complexidade, com &aacute;rea de at&eacute; 750 m&sup2; e uso com risco baixo ou m&eacute;dio, como com&eacute;rcios de pequeno porte e resid&ecirc;ncias.</p>
@@ -1448,6 +1515,20 @@ img { max-width: 100%; height: auto; }
 </style>
 
 <script>
+/* ====================== MENU HAMBURGUER ====================== */
+function toggleMobileMenu() {
+    var burger = document.getElementById('navBurger');
+    var links = document.getElementById('navLinks');
+    burger.classList.toggle('is-open');
+    links.classList.toggle('is-open');
+}
+function closeMobileMenu() {
+    var burger = document.getElementById('navBurger');
+    var links = document.getElementById('navLinks');
+    burger.classList.remove('is-open');
+    links.classList.remove('is-open');
+}
+
 /* ====================== MODAL DO GUIA ====================== */
 function openGuideModal(e) {
     if (e) e.preventDefault();
